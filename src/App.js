@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -8,7 +9,6 @@ import {
   Tooltip,
   LayerGroup,
 } from "react-leaflet";
-import React, { useEffect, useState } from "react";
 import { icon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import {
@@ -16,68 +16,14 @@ import {
   dummyDataCars,
   dummyDataParkings,
 } from "./consts/additionalMarkerks";
-import Sedan from "./images/Sedan.png";
-import SUV from "./images/SUV.png";
-import Hatchback from "./images/Hatchback.png";
-import SedanParking from "./images/SedanParking.jpg";
-import SUVParking from "./images/SUVParking.jpg";
-import HatchbackParking from "./images/HatchbackParking.jpg";
+import { determineIconType } from "./helpers/iconType";
+import { determineImageType } from "./helpers/imageType";
 
 const ClickEvent = () => {
   const map = useMapEvent("click", (e) => {
     console.log(e.latlng);
   });
   return null;
-};
-
-const determineImageType = (carType) => {
-  if (carType === "CAR") {
-    return (
-      <img
-        style={{ height: "100%", width: "100%" }}
-        src={SedanParking}
-        alt="car"
-      ></img>
-    );
-  } else if (carType === "TRUCK") {
-    return (
-      <img
-        style={{ height: "100%", width: "100%" }}
-        src={SUVParking}
-        alt="car"
-      ></img>
-    );
-  } else
-    return (
-      <img
-        style={{ height: "100%", width: "100%" }}
-        src={HatchbackParking}
-        alt="car"
-      ></img>
-    );
-};
-const determineIconType = (carType) => {
-  if (carType === "CAR") {
-    return {
-      iconUrl: Sedan,
-      iconSize: [50, 25],
-      iconAnchor: [25, 20],
-      popupAnchor: [0, -15],
-    };
-  } else if (carType === "TRUCK") {
-    return {
-      iconUrl: SUV,
-      iconSize: [50, 25],
-      iconAnchor: [25, 20],
-      popupAnchor: [0, -15],
-    };
-  } else
-    return {
-      iconUrl: Hatchback,
-      iconSize: [50, 25],
-      iconAnchor: [25, 20],
-      popupAnchor: [0, -15],
-    };
 };
 const App = () => {
   const [cars, setCars] = useState([]);
@@ -92,14 +38,16 @@ const App = () => {
     <div className="main-container">
       <div className="controlls">
         <div>
-          <input
-            type="checkbox"
-            id="availability"
-            name="isAvailable"
-            value={carStatus}
-            onChange={(e) => setCarStatus(!carStatus)}
-          ></input>
-          {carStatus ? "Only Available" : "ALL"}
+          <label>
+            <input
+              type="checkbox"
+              id="availability"
+              name="isAvailable"
+              value={carStatus}
+              onChange={(e) => setCarStatus(!carStatus)}
+            ></input>
+            {carStatus ? "Only Available" : "ALL"}
+          </label>
         </div>
         <div>
           <input
@@ -118,7 +66,7 @@ const App = () => {
         className="map"
         center={[52.1935161702226, 20.9304286193486]}
         zoom={16}
-        scrollWheelZoom={false}
+        scrollWheelZoom={true}
       >
         <ClickEvent></ClickEvent>
         <LayersControl>
@@ -141,7 +89,9 @@ const App = () => {
                     <Marker
                       key={car.id}
                       position={[car.location.latitude, car.location.longitude]}
-                      icon={icon(determineIconType(car.type))}
+                      icon={icon(
+                        determineIconType(car.type, car.batteryLevelPct)
+                      )}
                     >
                       <Popup>
                         {car.name}

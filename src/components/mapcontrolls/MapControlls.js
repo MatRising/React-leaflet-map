@@ -18,7 +18,7 @@ const MapControlls = ({
             value={carStatus}
             onChange={() => changeCarStatus(!carStatus)}
           ></input>
-          <span class="toggle-slider"></span>
+          <span className="toggle-slider"></span>
         </label>
         {carStatus ? "Available" : "All cars"}
       </div>

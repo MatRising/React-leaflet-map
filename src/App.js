@@ -7,7 +7,7 @@ import {
   useMapEvent,
   LayersControl,
   Tooltip,
-  LayerGroup,
+  useMap,
 } from "react-leaflet";
 import { icon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
@@ -18,7 +18,8 @@ import {
 } from "./consts/additionalMarkerks";
 import { determineIconType } from "./helpers/iconType";
 import { determineImageType } from "./helpers/imageType";
-import MapControlls from "./components/MapControlls";
+import MapControlls from "./components/mapcontrolls/MapControlls";
+import MyMapMarker from "./components/mymarkers/MyMapMarker";
 
 const ClickEvent = () => {
   const map = useMapEvent("click", (e) => {
@@ -28,6 +29,8 @@ const ClickEvent = () => {
 };
 const App = () => {
   const [cars, setCars] = useState([]);
+  const [POI, setPOI] = useState([]);
+  const [parking, setParking] = useState([]);
   const [batteryThreshold, setBatteryTreshold] = useState(0);
   const [carStatus, setCarStatus] = useState(false);
   const changeBatteryThreshold = (batteryThreshold) => {
@@ -40,6 +43,14 @@ const App = () => {
     fetch("https://dev.vozilla.pl/api-client-portal/map?objectType=VEHICLE")
       .then((response) => response.json())
       .then((data) => setCars([...dummyDataCars, ...data.objects]));
+
+    fetch("https://dev.vozilla.pl/api-client-portal/map?objectType=PARKING")
+      .then((response) => response.json())
+      .then((data) => setParking([...dummyDataParkings, ...data.objects]));
+
+    fetch("https://dev.vozilla.pl/api-client-portal/map?objectType=POI")
+      .then((response) => response.json())
+      .then((data) => setPOI([...dummyDataPOI, ...data.objects]));
   }, []);
   return (
     <div className="main-container">
@@ -74,7 +85,7 @@ const App = () => {
                   )
                   .map((car) => {
                     return (
-                      <Marker
+                      <MyMapMarker
                         key={car.id}
                         position={[
                           car.location.latitude,
@@ -99,44 +110,61 @@ const App = () => {
                           <br />
                           {determineImageType(car.type)}
                         </Popup>
-                      </Marker>
+                      </MyMapMarker>
                     );
                   })}
               </MarkerClusterGroup>
             </LayersControl.Overlay>
             <LayersControl.Overlay name="Parking">
-              <LayerGroup>
-                {dummyDataParkings.map((parking) => {
+              <MarkerClusterGroup disableClusteringAtZoom={18}>
+                {parking.map((parkingSpot) => {
                   return (
-                    <Marker
-                      key={parking.id}
+                    <MyMapMarker
+                      key={parkingSpot.id}
                       position={[
-                        parking.location.latitude,
-                        parking.location.longitude,
+                        parkingSpot.location.latitude,
+                        parkingSpot.location.longitude,
                       ]}
                     >
-                      <Tooltip>{parking.name}</Tooltip>
-                    </Marker>
+                      <Tooltip>{parkingSpot.name}</Tooltip>
+                      <Popup>
+                        {parkingSpot.name}
+                        <br></br>
+                        {parkingSpot.description}
+                        <br></br>
+                        {`${parkingSpot.address.city} ${parkingSpot.address.street} ${parkingSpot.address.house}`}
+                        <br></br>
+                        {`Spaces ${parkingSpot.spacesCount}/${parkingSpot.availableSpacesCount}`}
+                        <br></br>
+                      </Popup>
+                    </MyMapMarker>
                   );
                 })}
-              </LayerGroup>
+              </MarkerClusterGroup>
             </LayersControl.Overlay>
             <LayersControl.Overlay name="POI">
-              <LayerGroup>
-                {dummyDataPOI.map((parking) => {
+              <MarkerClusterGroup>
+                {POI.map((POI) => {
                   return (
-                    <Marker
-                      key={parking.id}
-                      position={[
-                        parking.location.latitude,
-                        parking.location.longitude,
-                      ]}
+                    <MyMapMarker
+                      key={POI.id}
+                      position={[POI.location.latitude, POI.location.longitude]}
                     >
-                      <Tooltip>{parking.name}</Tooltip>
-                    </Marker>
+                      <Tooltip>{POI.name}</Tooltip>
+                      <Popup>
+                        {POI.name}
+                        <br></br>
+                        {POI.category}
+                        <br></br>
+                        {POI.description}
+                        <br></br>
+                        {`${POI.address.city} ${POI.address.street} ${POI.address.house}`}
+                        <br></br>
+                      </Popup>
+                    </MyMapMarker>
                   );
                 })}
-              </LayerGroup>
+              </MarkerClusterGroup>
             </LayersControl.Overlay>
           </LayersControl>
         </MapContainer>

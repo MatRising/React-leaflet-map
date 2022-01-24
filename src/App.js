@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import {
   MapContainer,
   TileLayer,
-  Marker,
   Popup,
   useMapEvent,
   LayersControl,
   Tooltip,
-  useMap,
 } from "react-leaflet";
 import { icon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
@@ -20,6 +18,7 @@ import { determineIconType } from "./helpers/iconType";
 import { determineImageType } from "./helpers/imageType";
 import MapControlls from "./components/mapcontrolls/MapControlls";
 import MyMapMarker from "./components/mymarkers/MyMapMarker";
+import ParkingIcon from "./images/parking_icon.png";
 
 const ClickEvent = () => {
   const map = useMapEvent("click", (e) => {
@@ -68,6 +67,10 @@ const App = () => {
           scrollWheelZoom={true}
         >
           <ClickEvent></ClickEvent>
+          <MyMapMarker
+            markerType={"test"}
+            position={[52.19380844271261, 20.932726387786644]}
+          ></MyMapMarker>
           <LayersControl>
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -95,7 +98,7 @@ const App = () => {
                           determineIconType(car.type, car.batteryLevelPct)
                         )}
                       >
-                        <Popup>
+                        <Popup closeButton={false}>
                           {car.name}
                           <br />
                           {"Plate: " + car.platesNumber}
@@ -125,9 +128,16 @@ const App = () => {
                         parkingSpot.location.latitude,
                         parkingSpot.location.longitude,
                       ]}
+                      icon={icon({
+                        iconUrl: ParkingIcon,
+                        iconSize: [24, 24],
+                        iconAnchor: [12, 12],
+                        popupAnchor: [0, -15],
+                        tooltipAnchor: [15, 0],
+                      })}
                     >
                       <Tooltip>{parkingSpot.name}</Tooltip>
-                      <Popup>
+                      <Popup closeButton={false}>
                         {parkingSpot.name}
                         <br></br>
                         {parkingSpot.description}
@@ -151,7 +161,7 @@ const App = () => {
                       position={[POI.location.latitude, POI.location.longitude]}
                     >
                       <Tooltip>{POI.name}</Tooltip>
-                      <Popup>
+                      <Popup closeButton={false}>
                         {POI.name}
                         <br></br>
                         {POI.category}

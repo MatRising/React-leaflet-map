@@ -2,6 +2,14 @@ import SedanParking from "../images/SedanParking.jpg";
 import SUVParking from "../images/SUVParking.jpg";
 import HatchbackParking from "../images/HatchbackParking.jpg";
 
+export const determineCarImageUrl = (carType) => {
+  if (carType === "CAR") {
+    return SedanParking;
+  } else if (carType === "TRUCK") {
+    return SUVParking;
+  } else return HatchbackParking;
+};
+
 export const determineImageType = (carType) => {
   if (carType === "CAR") {
     return (

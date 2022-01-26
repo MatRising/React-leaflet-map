@@ -67,10 +67,6 @@ const App = () => {
           scrollWheelZoom={true}
         >
           <ClickEvent></ClickEvent>
-          <MyMapMarker
-            markerType={"test"}
-            position={[52.19380844271261, 20.932726387786644]}
-          ></MyMapMarker>
           <LayersControl>
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -89,6 +85,8 @@ const App = () => {
                   .map((car) => {
                     return (
                       <MyMapMarker
+                        markerType={"car"}
+                        data={car}
                         key={car.id}
                         position={[
                           car.location.latitude,
@@ -123,6 +121,8 @@ const App = () => {
                 {parking.map((parkingSpot) => {
                   return (
                     <MyMapMarker
+                      data={parkingSpot}
+                      markerType={"parking"}
                       key={parkingSpot.id}
                       position={[
                         parkingSpot.location.latitude,
@@ -157,6 +157,8 @@ const App = () => {
                 {POI.map((POI) => {
                   return (
                     <MyMapMarker
+                      data={POI}
+                      markerType={"POI"}
                       key={POI.id}
                       position={[POI.location.latitude, POI.location.longitude]}
                     >

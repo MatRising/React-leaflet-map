@@ -91,6 +91,7 @@ const markerType = (markerType, data) => {
         <Tooltip>{data.name}</Tooltip>
         <Popup closeButton={false}>
           <div className="my-popup-content">
+            {/*
             <div className="image-wrapper">
               <img
                 className="image"
@@ -98,6 +99,7 @@ const markerType = (markerType, data) => {
                 alt="Obejct "
               ></img>
             </div>
+*/}
             <div className="flex-wrapper">
               <div className="text-wrapper">
                 <p className="text-name">{data.name}</p>
@@ -128,6 +130,7 @@ const markerType = (markerType, data) => {
         <Tooltip>{data.name}</Tooltip>
         <Popup closeButton={false}>
           <div className="my-popup-content">
+            {/*
             <div className="image-wrapper">
               <img
                 className="image"
@@ -135,6 +138,7 @@ const markerType = (markerType, data) => {
                 alt="Obejct image"
               ></img>
             </div>
+ */}
             <div className="flex-wrapper">
               <div className="text-wrapper">
                 <p className="text-name">{data.name}</p>

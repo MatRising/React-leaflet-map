@@ -1,53 +1,9 @@
 import React from "react";
-import { Marker, Popup, Tooltip, useMap } from "react-leaflet";
 import "./mymapmarker.css";
-import Sedan from "../../images/SedanParking.jpg";
+import { Marker, Popup, Tooltip, useMap } from "react-leaflet";
 import Bookmark from "../../images/bookmark.svg";
 import Dirrection from "../../images/dirrection.svg";
 import { determineCarImageUrl } from "../../helpers/imageType";
-
-/*
-const markerType = (markerType, data) => {
-  if (data === undefined) return null;
-  return (
-    <>
-      {markerType !== "car" && <Tooltip>{data.name}</Tooltip>}
-      <Popup closeButton={false}>
-        <div className="my-popup-content">
-          <div className="image-wrapper">
-            <img
-              className="image"
-              src={determineCarImageUrl(data.type)}
-              alt="Obejct image"
-            ></img>
-          </div>
-          <div className="flex-wrapper">
-            <div className="text-wrapper">
-              <p className="text-name">{data.name}</p>
-              <p>{"Plate: " + data.platesNumber}</p>
-              <p>
-                {data.status === "AVAILABLE"
-                  ? "Car available"
-                  : "Car not available"}
-              </p>
-              <p>{"Battery " + data.batteryLevelPct + "%"}</p>
-              <p>{"Range " + data.rangeKm + "Km"}</p>
-            </div>
-            <div className="actions-wrapper">
-              <div>
-                <img src={Dirrection}></img>
-              </div>
-              <div>
-                <img src={Bookmark}></img>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Popup>
-    </>
-  );
-};
-*/
 
 const markerType = (markerType, data) => {
   if (markerType === "car") {
@@ -58,7 +14,7 @@ const markerType = (markerType, data) => {
             <img
               className="image"
               src={determineCarImageUrl(data.type)}
-              alt="Obejct image"
+              alt="Car"
             ></img>
           </div>
           <div className="flex-wrapper">
@@ -75,10 +31,10 @@ const markerType = (markerType, data) => {
             </div>
             <div className="actions-wrapper">
               <div>
-                <img src={Dirrection}></img>
+                <img src={Dirrection} alt="Dirrection icon"></img>
               </div>
               <div>
-                <img src={Bookmark}></img>
+                <img src={Bookmark} alt="Bookmark icon"></img>
               </div>
             </div>
           </div>
@@ -89,17 +45,17 @@ const markerType = (markerType, data) => {
     return (
       <>
         <Tooltip>{data.name}</Tooltip>
-        <Popup closeButton={false}>
+        <Popup offset={[0, -10]} closeButton={false}>
           <div className="my-popup-content">
-            {/*
-            <div className="image-wrapper">
-              <img
-                className="image"
-                src={determineCarImageUrl("CAR")}
-                alt="Obejct "
-              ></img>
-            </div>
-*/}
+            {data.picture !== null && (
+              <div className="image-wrapper">
+                <img
+                  className="image"
+                  src={data.picture}
+                  alt="Point of Intrest"
+                ></img>
+              </div>
+            )}
             <div className="flex-wrapper">
               <div className="text-wrapper">
                 <p className="text-name">{data.name}</p>
@@ -113,10 +69,10 @@ const markerType = (markerType, data) => {
               </div>
               <div className="actions-wrapper">
                 <div>
-                  <img src={Dirrection}></img>
+                  <img src={Dirrection} alt="Dirrection icon"></img>
                 </div>
                 <div>
-                  <img src={Bookmark}></img>
+                  <img src={Bookmark} alt="Bookmark icon"></img>
                 </div>
               </div>
             </div>
@@ -130,15 +86,11 @@ const markerType = (markerType, data) => {
         <Tooltip>{data.name}</Tooltip>
         <Popup closeButton={false}>
           <div className="my-popup-content">
-            {/*
-            <div className="image-wrapper">
-              <img
-                className="image"
-                src={determineCarImageUrl("CAR")}
-                alt="Obejct image"
-              ></img>
-            </div>
- */}
+            {data.pictureId !== null && (
+              <div className="image-wrapper">
+                <img className="image" src={data.pictureId} alt="Parking"></img>
+              </div>
+            )}
             <div className="flex-wrapper">
               <div className="text-wrapper">
                 <p className="text-name">{data.name}</p>
@@ -158,10 +110,10 @@ const markerType = (markerType, data) => {
               </div>
               <div className="actions-wrapper">
                 <div>
-                  <img src={Dirrection}></img>
+                  <img src={Dirrection} alt="Dirrection icon"></img>
                 </div>
                 <div>
-                  <img src={Bookmark}></img>
+                  <img src={Bookmark} alt="Bookmark icon"></img>
                 </div>
               </div>
             </div>
@@ -171,6 +123,7 @@ const markerType = (markerType, data) => {
     );
   } else return null;
 };
+
 const MyMapMarker = (props) => {
   const map = useMap();
   return (
@@ -183,39 +136,6 @@ const MyMapMarker = (props) => {
       {...props}
     >
       {markerType(props.markerType, props.data)}
-      {/* 
-      {props.markerType === "test" ? (
-        <Popup closeButton={false}>
-          <div className="my-popup-content">
-            <div className="image-wrapper">
-              <img className="image" src={Sedan} alt="Car image"></img>
-            </div>
-            <div className="flex-wrapper">
-              <div className="text-wrapper">
-                <p className="text-name">Car Name</p>
-                <p>WXN592PK</p>
-                <p>Available</p>
-                <p>Battery Level</p>
-                <p>Range Km</p>
-              </div>
-              <div className="actions-wrapper">
-                <div>
-                  <img src={Dirrection}></img>
-                </div>
-                <div>
-                  <img src={Bookmark}></img>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Popup>
-      ) : (
-        props.children
-      )}
-      {
-        //props.children
-      }
-      */}
     </Marker>
   );
 };

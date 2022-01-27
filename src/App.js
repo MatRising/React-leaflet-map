@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   MapContainer,
   TileLayer,
-  Popup,
   useMapEvent,
   LayersControl,
-  Tooltip,
 } from "react-leaflet";
 import { icon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
@@ -15,7 +13,6 @@ import {
   dummyDataParkings,
 } from "./consts/additionalMarkerks";
 import { determineIconType } from "./helpers/iconType";
-import { determineImageType } from "./helpers/imageType";
 import MapControlls from "./components/mapcontrolls/MapControlls";
 import MyMapMarker from "./components/mymarkers/MyMapMarker";
 import ParkingIcon from "./images/parking_icon.png";
@@ -41,15 +38,18 @@ const App = () => {
   useEffect(() => {
     fetch("https://dev.vozilla.pl/api-client-portal/map?objectType=VEHICLE")
       .then((response) => response.json())
-      .then((data) => setCars([...dummyDataCars, ...data.objects]));
+      .then((data) => setCars([...dummyDataCars, ...data.objects]))
+      .catch((err) => console.log(err));
 
     fetch("https://dev.vozilla.pl/api-client-portal/map?objectType=PARKING")
       .then((response) => response.json())
-      .then((data) => setParking([...dummyDataParkings, ...data.objects]));
+      .then((data) => setParking([...dummyDataParkings, ...data.objects]))
+      .catch((err) => console.log(err));
 
     fetch("https://dev.vozilla.pl/api-client-portal/map?objectType=POI")
       .then((response) => response.json())
-      .then((data) => setPOI([...dummyDataPOI, ...data.objects]));
+      .then((data) => setPOI([...dummyDataPOI, ...data.objects]))
+      .catch((err) => console.log(err));
   }, []);
   return (
     <div className="main-container">
@@ -95,23 +95,7 @@ const App = () => {
                         icon={icon(
                           determineIconType(car.type, car.batteryLevelPct)
                         )}
-                      >
-                        <Popup closeButton={false}>
-                          {car.name}
-                          <br />
-                          {"Plate: " + car.platesNumber}
-                          <br />
-                          {"Battery " + car.batteryLevelPct + "%"}
-                          <br />
-                          {"Range " + car.rangeKm + "km"}
-                          <br />
-                          {car.status === "AVAILABLE"
-                            ? "Car available"
-                            : "Car not available"}
-                          <br />
-                          {determineImageType(car.type)}
-                        </Popup>
-                      </MyMapMarker>
+                      ></MyMapMarker>
                     );
                   })}
               </MarkerClusterGroup>
@@ -132,22 +116,10 @@ const App = () => {
                         iconUrl: ParkingIcon,
                         iconSize: [24, 24],
                         iconAnchor: [12, 12],
-                        popupAnchor: [0, -15],
+                        popupAnchor: [0, -24],
                         tooltipAnchor: [15, 0],
                       })}
-                    >
-                      <Tooltip>{parkingSpot.name}</Tooltip>
-                      <Popup closeButton={false}>
-                        {parkingSpot.name}
-                        <br></br>
-                        {parkingSpot.description}
-                        <br></br>
-                        {`${parkingSpot.address.city} ${parkingSpot.address.street} ${parkingSpot.address.house}`}
-                        <br></br>
-                        {`Spaces ${parkingSpot.spacesCount}/${parkingSpot.availableSpacesCount}`}
-                        <br></br>
-                      </Popup>
-                    </MyMapMarker>
+                    ></MyMapMarker>
                   );
                 })}
               </MarkerClusterGroup>
@@ -161,19 +133,7 @@ const App = () => {
                       markerType={"POI"}
                       key={POI.id}
                       position={[POI.location.latitude, POI.location.longitude]}
-                    >
-                      <Tooltip>{POI.name}</Tooltip>
-                      <Popup closeButton={false}>
-                        {POI.name}
-                        <br></br>
-                        {POI.category}
-                        <br></br>
-                        {POI.description}
-                        <br></br>
-                        {`${POI.address.city} ${POI.address.street} ${POI.address.house}`}
-                        <br></br>
-                      </Popup>
-                    </MyMapMarker>
+                    ></MyMapMarker>
                   );
                 })}
               </MarkerClusterGroup>

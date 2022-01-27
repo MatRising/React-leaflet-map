@@ -12,7 +12,7 @@ export const determineIconType = (carType, batteryLevel = 0) => {
       iconUrl: isCarChargedEnough ? SedanGreen : SedanRed,
       iconSize: [50, 25],
       iconAnchor: [25, 20],
-      popupAnchor: [0, -15],
+      popupAnchor: [0, -28],
     };
   } else if (carType === "TRUCK") {
     return {
@@ -20,7 +20,7 @@ export const determineIconType = (carType, batteryLevel = 0) => {
       iconSize: [50, 25],
       iconSize: [50, 25],
       iconAnchor: [25, 20],
-      popupAnchor: [0, -15],
+      popupAnchor: [0, -28],
     };
   } else
     return {
@@ -28,6 +28,6 @@ export const determineIconType = (carType, batteryLevel = 0) => {
       iconSize: [50, 25],
       iconSize: [50, 25],
       iconAnchor: [25, 20],
-      popupAnchor: [0, -15],
+      popupAnchor: [0, -28],
     };
 };

@@ -370,6 +370,7 @@ export const dummyDataParkings = [
     name: "Parking",
     id: "001",
     description: "",
+    pictureId: null,
     address: {
       city: "Warszawa",
       street: "",
@@ -385,6 +386,39 @@ export const dummyDataParkings = [
   {
     name: "Parking",
     id: "002",
+    pictureId: null,
+    address: {
+      city: "Warszawa",
+      street: "",
+      house: "",
+    },
+    spacesCount: "4",
+    availableSpacesCount: "4",
+    location: {
+      latitude: 52.19538577923633,
+      longitude: 20.92551357184061,
+    },
+  },
+  {
+    name: "Parking",
+    id: "003",
+    pictureId: null,
+    address: {
+      city: "Warszawa",
+      street: "",
+      house: "",
+    },
+    spacesCount: "4",
+    availableSpacesCount: "4",
+    location: {
+      latitude: 52.19538577923633,
+      longitude: 20.92551357184061,
+    },
+  },
+  {
+    name: "Parking",
+    id: "004",
+    pictureId: null,
     description: "",
     address: {
       city: "Warszawa",
@@ -400,7 +434,8 @@ export const dummyDataParkings = [
   },
   {
     name: "Parking",
-    id: "003",
+    pictureId: null,
+    id: "005",
     description: "",
     spacesCount: "2",
     availableSpacesCount: "2",
@@ -420,7 +455,8 @@ export const dummyDataPOI = [
   {
     name: "Hotel Czerniewski",
     category: "Hotel",
-    description: "Jest to hotel",
+    description: "",
+    picture: null,
     address: {
       city: "Warszawa",
       street: "",
@@ -435,7 +471,8 @@ export const dummyDataPOI = [
   {
     name: "Cukiernia Galas",
     category: "Jedzenie",
-    description: "Cukiernia",
+    description: "",
+    picture: null,
     address: {
       city: "Warszawa",
       street: "",
@@ -450,7 +487,8 @@ export const dummyDataPOI = [
   {
     name: "Squash City",
     category: "Sport",
-    description: "Opis",
+    description: "",
+    picture: null,
     address: {
       city: "Warszawa",
       street: "",

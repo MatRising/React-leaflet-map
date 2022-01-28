@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  useMapEvent,
-  LayersControl,
-} from "react-leaflet";
+import { MapContainer, TileLayer, LayersControl } from "react-leaflet";
 import { icon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import {
@@ -17,12 +12,6 @@ import MapControlls from "./components/mapcontrolls/MapControlls";
 import MyMapMarker from "./components/mymarkers/MyMapMarker";
 import ParkingIcon from "./images/parking_icon.png";
 
-const ClickEvent = () => {
-  const map = useMapEvent("click", (e) => {
-    console.log(e.latlng);
-  });
-  return null;
-};
 const App = () => {
   const [cars, setCars] = useState([]);
   const [POI, setPOI] = useState([]);
@@ -66,7 +55,6 @@ const App = () => {
           zoom={16}
           scrollWheelZoom={true}
         >
-          <ClickEvent></ClickEvent>
           <LayersControl>
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
